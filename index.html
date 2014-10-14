@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML5 Audio Player</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .ctrl {
+                width: 20px;
+            }
+
+            .hide {
+                display: none;
+            }
+
+            .pull-right {
+                float: right;
+                padding: 8px;
+            }
+
+            .pull-left {
+                float: left;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="width: 274px; height: 135px; border: 2px solid black; border-radius: 15px; background-color: rgb(204, 147, 147);">
+            <div class="pull-right" style="margin-top: -1px; border-radius: 9px; width: 120px; height: 39px; border: 1px solid rgb(255, 255, 255); background-color: rgb(191, 143, 143);">
+                <input type="range" id="volume" min="0" max="1" step="0.1" value="1.0" style="width: 80px;" class=" pull-right">
+            </div>
+            <img class="high ctrl pull-right vol" alt="" src="./images/music_player/sound_1.png">
+            <img class="medium ctrl hide pull-right vol" alt="" src="./images/music_player/sound_2.png">
+            <img class="slow ctrl hide pull-right vol" style="width: 10px;" alt="" src="./images/music_player/sound_3.png">
+            <img class="mute ctrl hide pull-right vol" alt="" src="./images/music_player/sound_4.png">
+            <img id="stop" style="width: 16px;" class="ctrl pull-right hide" alt="Stop" src="./images/music_player/stop.png">
+            <img id="play" style="width: 10px;" class="ctrl pull-right" alt="Play" src="./images/music_player/play.png">
+            <img id="pause" style="width: 14px;" class="ctrl pull-right hide" alt="Pause" src="./images/music_player/pause.png">
+            <audio id="sample_song" volume="1.0">
+                <source src="./music_files/sample.ogg"></source>
+                <source src="./music_files/sample.mp3"></source>
+                <source src="./music_files/sample.wav"></source>
+            </audio>
+        </div>
+        <script type="text/javascript" src="./js/jquery-1.11.1.min.js"></script>
+        <script>
+            $('#play').click(function () {
+                $(this).hide();
+                $("#sample_song")[0].play();
+                $('#pause').show();
+            });
+
+            $('#pause').click(function () {
+                $(this).hide();
+                $("#sample_song")[0].pause();
+                $('#play').show();
+            });
+
+            $('#volume').bind('mousedown click mouseup change hover mouseover select', function () {
+                var vol_level = $(this).val();
+                $('.vol').hide();
+                var vol_display = 'mute';
+console.log(vol_level)
+                if (vol_level > 0.5) {
+                    vol_display = 'high';
+                } else if (vol_level > 0.25 && vol_level <= 0.50) {
+                    vol_display = 'medium';
+                } else if (vol_level > 0.0 && vol_level <= 0.25) {
+                    vol_display = 'slow';
+                }
+
+                $('.' + vol_display).show();
+                $("#sample_song")[0].volume = $(this).val();
+
+            });
+        </script>
+    </body>
+</html>
